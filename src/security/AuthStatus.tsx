@@ -18,11 +18,4 @@ export default function AuthStatus() {
       </li>
     );
   }
-
-  //TODO: Replace with code to switch between login and logout
-  return (
-    <li>
-      <NavLink to="/login">Login</NavLink>
-    </li>
-  );
 }

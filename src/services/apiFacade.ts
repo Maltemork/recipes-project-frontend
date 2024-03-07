@@ -1,9 +1,8 @@
 import { API_URL } from "../settings";
-import  { makeOptions,handleHttpErrors } from "./fetchUtils";
+import { makeOptions, handleHttpErrors } from "./fetchUtils";
 const CATEGORIES_URL = API_URL + "/categories";
 const RECIPE_URL = API_URL + "/recipes";
 const INFO_URL = API_URL + "/info";
-
 
 interface Recipe {
   id: number | null;
@@ -42,14 +41,35 @@ async function getRecipe(id: number): Promise<Recipe> {
   return fetch(RECIPE_URL + "/" + id).then(handleHttpErrors);
 }
 async function addRecipe(newRecipe: Recipe): Promise<Recipe> {
+  const token = localStorage.getItem("token");
   const method = newRecipe.id ? "PUT" : "POST";
-  const options = makeOptions(method, newRecipe);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const options = makeOptions(method, newRecipe, headers);
   const URL = newRecipe.id ? `${RECIPE_URL}/${newRecipe.id}` : RECIPE_URL;
   return fetch(URL, options).then(handleHttpErrors);
 }
+
 async function deleteRecipe(id: number): Promise<Recipe> {
-  const options = makeOptions("DELETE", null);
+  const token = localStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const options = makeOptions("DELETE", null, headers);
   return fetch(`${RECIPE_URL}/${id}`, options).then(handleHttpErrors);
+}
+
+async function addCategory(category: object): Promise<string> {
+  const token = localStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const options = makeOptions("POST", category, headers);
+  return fetch(CATEGORIES_URL, options).then(handleHttpErrors);
 }
 
 async function getInfo(): Promise<Info> {
@@ -58,4 +78,12 @@ async function getInfo(): Promise<Info> {
 
 export type { Recipe, Info };
 // eslint-disable-next-line react-refresh/only-export-components
-export { getCategories, getRecipes, getRecipe, addRecipe, deleteRecipe, getInfo };
+export {
+  getCategories,
+  getRecipes,
+  getRecipe,
+  addRecipe,
+  deleteRecipe,
+  getInfo,
+  addCategory,
+};

@@ -10,6 +10,7 @@ import "./App.css";
 import RecipesLayout from "./recipes/RecipesLayout";
 import Logout from "./security/Logout";
 import RequireAuth from "./security/RequireAuth";
+import Admin from "./Admin";
 
 export default function App() {
   //const auth = useAuth();
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<h1>404: Page Not Found</h1>} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Layout>
   );
