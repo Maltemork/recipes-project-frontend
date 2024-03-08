@@ -24,7 +24,7 @@ interface Info {
 let categories: Array<string> = [];
 
 async function getCategories(): Promise<Array<string>> {
-  if (categories.length > 0) return [...categories];
+  //if (categories.length > 0) return [...categories];
   const res = await fetch(CATEGORIES_URL).then(handleHttpErrors);
   categories = [...res];
   return categories;
